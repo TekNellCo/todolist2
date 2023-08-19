@@ -33,6 +33,12 @@
     height: 100%;
     width: 50%;
 }
+.leftcontainer form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .headerinput{
     text-align: center;
     margin: 1rem;
