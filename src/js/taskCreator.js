@@ -1,5 +1,7 @@
 
-
+////////USE IN COMBINATION WITH RADIO SO THEY DONT ALL HAVE THE SAME NAME
+let priority = 0;
+ ////////////CREATES A TASK AND INPUT INTERFACE
 export function taskCreator(headerContainer,addTaskContainer){
     let inputTaskContainer = document.createElement('div');
     let taskInputText = document.createElement('input');
@@ -26,13 +28,15 @@ export function taskCreator(headerContainer,addTaskContainer){
     deleteBtn.textContent="X"
 
     inputLow.setAttribute('type','radio');
-    inputLow.setAttribute('name','priority');
+    inputLow.setAttribute('name',`priority${priority}`);
     inputLow.checked = true;
     inputMed.setAttribute('type','radio');
-    inputMed.setAttribute('name','priority');
+    inputMed.setAttribute('name',`priority${priority}`);
     inputHigh.setAttribute('type','radio');
-    inputHigh.setAttribute('name','priority');
+    inputHigh.setAttribute('name',`priority${priority}`);
+    console.log(priority)
 
+    priority++
 
     headerContainer.insertBefore(inputTaskContainer, addTaskContainer);
     inputTaskContainer.append(taskInputText);
@@ -52,7 +56,6 @@ export function taskCreator(headerContainer,addTaskContainer){
         inputTaskContainer.remove();
     }
 
-
     /////////////Confirm button click and "Enter" on keyboard press run SETTASK function
     confirmBtn.addEventListener('click',setTask)
     document.addEventListener('keydown',(e)=>{
@@ -60,7 +63,7 @@ export function taskCreator(headerContainer,addTaskContainer){
             setTask();
         }else{}
     })
-
+           ////////CREATES TASK DIV 
     function setTask(){
         let taskItem = document.createElement('div');
         let taskInfo = document.createElement('p');
@@ -82,19 +85,31 @@ export function taskCreator(headerContainer,addTaskContainer){
         taskItem.append(div);
         div.append(taskCheckBox);
         div.append(taskEditBtn);
-
+          //////////////SWITCHES TO TASK INPUT
         taskEditBtn.addEventListener('click',()=>{
             taskItem.replaceWith(inputTaskContainer);
         })
+
+        let color;
+
+       if(inputMed.checked === true){
+        taskItem.style.backgroundColor = "orange"
+        color = "orange";
+       }else if(inputHigh.checked === true){
+        taskItem.style.backgroundColor = "red"
+        color = "red";
+       }else{
+        taskItem.style.backgroundColor = "yellow"
+        color = "yellow";
+       }
+
+
+
+
+       taskCheckBox.addEventListener('change',()=>{
+        taskCheckBox.checked === true ? taskItem.style.backgroundColor = "green" : taskItem.style.backgroundColor = color
+       })
+
     }
 
-
 }
-
-
-
-
-
-
-// if the child before addtask div is taskinput form change it to taskset
-// then add task,if it isnt then just add the task
